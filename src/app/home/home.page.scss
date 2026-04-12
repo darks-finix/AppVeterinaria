@@ -1,0 +1,200 @@
+/* ==========================================
+   ESTILOS GENERALES Y FONDO
+   ========================================== */
+:host {
+  --ion-background-color: #f8f9fb;
+  --ion-text-color: #000000;
+}
+
+ion-content { 
+  --background: #f8f9fb; 
+  --color: #000000;
+
+  /* SCROLL DISCRETO CONFIGURADO */
+  &::part(scroll) {
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent; 
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #e0e0e0; 
+      border-radius: 10px;
+    }
+  }
+}
+
+/* ==========================================
+   HEADER Y BIENVENIDA
+   ========================================== */
+ion-header {
+  background: #ffffff !important;
+  
+  ion-toolbar {
+    --background: #ffffff;
+    --border-style: none;
+    --padding-top: 10px;
+    --color: #1a1a1a;
+    padding-left: 10px; /* Alineación con el resto de la app */
+
+    ion-title {
+      font-weight: 500;
+      font-size: 18px;
+      letter-spacing: -0.5px;
+    }
+  }
+}
+
+.user-greeting {
+  background: #ffffff;
+  padding: 0 20px 20px 25px; /* 25px a la izquierda para match */
+  
+  h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #000;
+    line-height: 1.1;
+  }
+  
+  p {
+    margin: 6px 0 0;
+    font-size: 0.95rem;
+    color: #757575;
+    font-weight: 500;
+  }
+}
+
+/* ==========================================
+   BARRA DE FILTROS (DISEÑO FIGMA)
+   ========================================== */
+.filter-nav-container {
+  display: flex; 
+  gap: 12px; 
+  padding: 10px 20px 20px 25px; 
+  overflow-x: auto; 
+  background: #ffffff;
+  border-bottom: 1px solid #f0f0f0;
+
+  /* Ocultar barra de scroll en navegación horizontal */
+  scrollbar-width: none; 
+  &::-webkit-scrollbar { display: none; } 
+
+  .filter-btn {
+    white-space: nowrap; 
+    padding: 10px 22px; 
+    border-radius: 14px; /* Un poco más cuadrado como tus botones previos */
+    border: 1px solid #eee; 
+    background: white; 
+    color: #555; 
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &.active {
+      background: #000; /* Negro sólido Figma */
+      color: white;
+      border-color: #000;
+    }
+  }
+}
+
+/* ==========================================
+   SELECTOR DE MASCOTA Y TARJETAS
+   ========================================== */
+.selector-card {
+  background: #ffffff;
+  border-radius: 20px !important;
+  margin: 15px 20px;
+  border: 1px solid #f5f5f5;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.03) !important;
+
+  ion-select {
+    background: #f4f6f8; 
+    border-radius: 12px;
+    padding: 0 15px;
+    min-height: 45px;
+    font-weight: 700;
+    color: #000;
+    width: 100%;
+    
+    &::part(icon) { 
+      color: #000; 
+      font-size: 20px; 
+      opacity: 1;
+    }
+  }
+}
+
+ion-card {
+  background: #ffffff;
+  border-radius: 20px !important; 
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.03) !important; 
+  margin: 15px 20px;
+  border: 1px solid #f5f5f5;
+  padding: 10px;
+  
+  ion-card-title {
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+    color: #000;
+    letter-spacing: -0.3px;
+  }
+}
+
+/* ==========================================
+   BIENESTAR Y ACCIONES
+   ========================================== */
+.wellness-icon {
+  font-size: 2.8rem;
+  margin-bottom: 10px;
+  &.purple { color: #a29bfe; } 
+  &.blue   { color: #3880ff; } 
+  &.orange { color: #ff4d4d; } 
+}
+
+ion-badge {
+  width: 90%;
+  padding: 10px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  &[color="success"] { --background: #2dd36f; } 
+  &[color="warning"] { --background: #ffc409; color: #000; } 
+}
+
+.view-btn {
+  --border-radius: 14px;
+  --border-color: #eee;
+  --color: #000;
+  --background: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  margin-top: 15px;
+  height: 50px;
+  text-transform: none;
+  border: 1px solid #eee;
+}
+
+/* ==========================================
+   TABS INFERIORES
+   ========================================== */
+/* TAB BAR INFERIOR */
+ion-tab-bar { 
+  --background: #fff; 
+  height: 70px; 
+  border-top: 1px solid #f2f2f2; 
+  ion-tab-button {
+    --color: #bbb;
+    &.selected-tab { --color: #3880ff; }
+  }
+}
+
+/* Estilos de Popover (Selector) */
+.select-popover .popover-content {
+  --background: #ffffff !important;
+  border-radius: 20px !important;
+}

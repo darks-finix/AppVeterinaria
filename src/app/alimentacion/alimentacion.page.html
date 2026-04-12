@@ -1,0 +1,116 @@
+<ion-header class="ion-no-border">
+  <div class="custom-header ion-padding">
+    <div class="brand">
+      <ion-icon name="paw-outline"></ion-icon>
+      <span>Huellitas App</span>
+    </div>
+    <h1 class="user-welcome">Hola, {{ user.nombre || 'Usuario' }} 👋</h1>
+  </div>
+
+  <div class="segment-container">
+    <button [class.active]="router.url.includes('mascotas')" routerLink="/mascotas">Lista Mascotas</button>
+    <button [class.active]="router.url.includes('controldiario')" routerLink="/controldiario">Control Diario</button>
+    <button [class.active]="router.url.includes('alimentacion')" routerLink="/alimentacion">Alimentación</button>
+    <button [class.active]="router.url.includes('historial')" routerLink="/historial">Historial clínico</button>
+    <button [class.active]="router.url.includes('recordatorios')" routerLink="/recordatorios">Notas y
+      Recordatorios</button>
+  </div>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="main-content">
+  <div class="section-header ion-padding">
+    <div class="title-group">
+      <span class="emoji">🍽️</span>
+      <h2 class="section-title">ALIMENTACIÓN</h2>
+    </div>
+    <button class="btn-add-main" (click)="abrirModal()">
+      <ion-icon name="add"></ion-icon> Agregar Alimentación
+    </button>
+  </div>
+
+  <div class="cards-list ion-padding-horizontal">
+    <div *ngFor="let item of listaAlimentacion" class="styled-card">
+      <div class="card-top">
+        <div class="date-info">
+          <h3>{{ item.fecha | date:"d 'de' MMMM 'de' yyyy":'':'es' }}</h3>
+          <span class="pet-badge">{{ getNombreMascota(item.mascota_id) }}</span>
+        </div>
+        <div class="card-actions">
+          <button class="action-btn edit" (click)="abrirModal(item)">
+            <ion-icon name="create-outline"></ion-icon>
+          </button>
+          <button class="action-btn delete" (click)="eliminar(item.id)">
+            <ion-icon name="trash-outline"></ion-icon>
+          </button>
+        </div>
+      </div>
+      <div class="card-body-grid">
+        <div class="info-box"><label>Tipo de alimento</label>
+          <p>{{ item.tipo_alimento }}</p>
+        </div>
+        <div class="info-box"><label>Cantidad</label>
+          <p>{{ item.cantidad }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ion-modal [isOpen]="isModalOpen" (didDismiss)="isModalOpen = false" class="custom-modal centered">
+    <ng-template>
+      <div class="modal-wrapper">
+        <div class="modal-header">
+          <div class="title-group">
+            <h2>{{ editando ? 'Editar Comida' : 'Nueva Alimentación' }}</h2>
+            <p>Registra la dieta de tu mascota</p>
+          </div>
+          <ion-icon name="close" (click)="isModalOpen = false" class="close-icon"></ion-icon>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Mascota</label>
+            <select class="figma-input" [(ngModel)]="nuevaAlimentacion.mascota_id">
+              <option value="" disabled>Selecciona mascota</option>
+              <option *ngFor="let m of listaMascotas" [value]="m.id">{{ m.nombre }}</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Fecha</label>
+            <input #fechaInput type="date" class="figma-input" [(ngModel)]="nuevaAlimentacion.fecha"
+              (click)="abrirCalendario(fechaInput)">
+          </div>
+
+          <div class="form-group">
+            <label>Tipo de alimento</label>
+            <input type="text" class="figma-input" [(ngModel)]="nuevaAlimentacion.tipo_alimento"
+              placeholder="Ej: Croquetas">
+          </div>
+
+          <div class="form-group">
+            <label>Cantidad</label>
+            <input type="text" class="figma-input" [(ngModel)]="nuevaAlimentacion.cantidad" placeholder="Ej: 200g">
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn-cancel" (click)="isModalOpen = false">Cancelar</button>
+            <button class="btn-save" (click)="guardar()">{{ editando ? 'Actualizar' : 'Guardar' }}</button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="home" routerLink="/home"><ion-icon
+        name="home-outline"></ion-icon><ion-label>Inicio</ion-label></ion-tab-button>
+    <ion-tab-button tab="mascotas" class="selected-tab" routerLink="/mascotas"><ion-icon
+        name="paw-outline"></ion-icon><ion-label>Mascota</ion-label></ion-tab-button>
+    <ion-tab-button tab="vacunas" routerLink="/vacunas"><ion-icon
+        name="medkit-outline"></ion-icon><ion-label>Vacunas</ion-label></ion-tab-button>
+    <ion-tab-button tab="perfil" routerLink="/perfil"><ion-icon
+        name="person-outline"></ion-icon><ion-label>Perfil</ion-label></ion-tab-button>
+  </ion-tab-bar>
+</ion-footer>

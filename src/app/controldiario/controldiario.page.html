@@ -1,0 +1,165 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="main-header">
+    <ion-icon slot="start" name="paw-outline" class="top-icon"></ion-icon>
+    <ion-title>Huellitas App</ion-title>
+  </ion-toolbar>
+
+  <div class="header-content">
+    <h2 class="user-name">Hola, {{ user.nombre || 'Usuario' }} 👋</h2>
+  </div>
+
+  <div class="segment-container">
+    <button [class.active]="router.url.includes('mascotas')" (click)="irAMascotas()">
+      Lista Mascotas
+    </button>
+    <button [class.active]="router.url.includes('controldiario')" (click)="irAControlDiario()">
+      Control Diario
+    </button>
+    <button [class.active]="router.url.includes('alimentacion')" (click)="irAAlimentacion()">
+      Alimentación
+    </button>
+    <button [class.active]="router.url.includes('historial')" (click)="irAHistorial()">
+      Historial clínico
+    </button>
+    <button [class.active]="router.url.includes('recordatorios')" (click)="irARecomendaciones()">
+      Notas y Recordatorios
+    </button>
+  </div>
+</ion-header>
+
+<ion-content>
+  <div class="section-header">
+    <div class="title-with-emoji">
+      <span class="emoji-icon">📋</span>
+      <h1 class="section-title">CONTROL DIARIO</h1>
+    </div>
+    <button class="btn-add-control" (click)="abrirModal()">
+      <ion-icon name="add-outline"></ion-icon> Agregar Control
+    </button>
+  </div>
+
+  <div class="control-grid">
+    <div class="control-card" *ngFor="let c of listaControles">
+      <div class="card-header">
+        <div class="date-group">
+          <h3 class="card-date">{{ formatFecha(c.fecha) }}</h3>
+          <span class="pet-badged">{{ getNombreMascota(c.mascota_id) }}</span>
+        </div>
+        <div class="card-actions">
+          <button class="action-edit" (click)="prepararEdicion(c)">
+            <ion-icon name="create-outline"></ion-icon>
+          </button>
+          <button class="action-delete" (click)="eliminarControl(c.id)">
+            <ion-icon name="trash-outline"></ion-icon>
+          </button>
+        </div>
+      </div>
+
+      <div class="status-verification-row">
+        <div class="verification-item"
+          [ngClass]="{'verified': c.comio == 1 || c.comio === true, 'unverified': c.comio == 0 || c.comio === false}">
+          <span class="symbol">{{ (c.comio == 1 || c.comio === true) ? '✓' : '✗' }}</span> Comió
+        </div>
+        <div class="verification-item"
+          [ngClass]="{'verified': c.camino == 1 || c.camino === true, 'unverified': c.camino == 0 || c.camino === false}">
+          <span class="symbol">{{ (c.camino == 1 || c.camino === true) ? '✓' : '✗' }}</span> Caminó
+        </div>
+        <div class="verification-item"
+          [ngClass]="{'verified': c.medicina == 1 || c.medicina === true, 'unverified': c.medicina == 0 || c.medicina === false}">
+          <span class="symbol">{{ (c.medicina == 1 || c.medicina === true) ? '✓' : '✗' }}</span> Medicina
+        </div>
+      </div>
+
+      <div class="card-comments">
+        <p class="comment-preview">{{ c.comentario || 'Sin comentarios adicionales.' }}</p>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="listaControles.length === 0">
+      <p>No hay registros de control registrados.</p>
+    </div>
+  </div>
+
+  <ion-modal [isOpen]="isModalOpen" (didDismiss)="cerrarModal()" class="custom-modal centered">
+    <ng-template>
+      <div class="modal-wrapper">
+        <div class="modal-header">
+          <div class="modal-title-group">
+            <h2>{{ editando ? 'Editar Control' : 'Agregar Control Diario' }}</h2>
+            <p>Registra el control diario de tu mascota</p>
+          </div>
+          <ion-icon name="close-outline" (click)="cerrarModal()" class="close-modal-icon"></ion-icon>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Mascota</label>
+            <select class="figma-input" [(ngModel)]="nuevoControl.mascota_id">
+              <option value="" disabled>Selecciona mascota</option>
+              <option *ngFor="let m of listaMascotas" [value]="m.id">{{ m.nombre }}</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Fecha</label>
+            <input type="date" class="figma-input date-input" [(ngModel)]="nuevoControl.fecha">
+          </div>
+
+          <div class="checkbox-list">
+            <ion-item lines="none" class="figma-checkbox-item">
+              <ion-checkbox slot="start" [(ngModel)]="nuevoControl.comio"></ion-checkbox>
+              <ion-label>Comió</ion-label>
+            </ion-item>
+            <ion-item lines="none" class="figma-checkbox-item">
+              <ion-checkbox slot="start" [(ngModel)]="nuevoControl.camino"></ion-checkbox>
+              <ion-label>Caminó</ion-label>
+            </ion-item>
+            <ion-item lines="none" class="figma-checkbox-item">
+              <ion-checkbox slot="start" [(ngModel)]="nuevoControl.medicina"></ion-checkbox>
+              <ion-label>Tomó medicina</ion-label>
+            </ion-item>
+          </div>
+
+          <div class="form-group">
+            <label>Comentarios</label>
+            <textarea class="figma-input" rows="3" [(ngModel)]="nuevoControl.comentario"
+              placeholder="Ej: Estuvo muy activo..."></textarea>
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn-cancel" (click)="cerrarModal()">Cancelar</button>
+            <button class="btn-save" (click)="guardarControl()">
+              {{ editando ? 'Actualizar' : 'Guardar' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="home" routerLink="/home">
+      <ion-icon name="home-outline"></ion-icon>
+      <ion-label>Inicio</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button 
+      tab="mascotas" 
+      routerLink="/mascotas"
+      [class.selected-tab]="router.url.includes('mascotas') || router.url.includes('controldiario') || router.url.includes('alimentacion')">
+      <ion-icon name="paw-outline"></ion-icon>
+      <ion-label>Mascota</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="vacunas" routerLink="/vacunas">
+      <ion-icon name="medkit-outline"></ion-icon>
+      <ion-label>Vacunas</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="perfil" routerLink="/perfil">
+      <ion-icon name="person-outline"></ion-icon>
+      <ion-label>Perfil</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-footer>

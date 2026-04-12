@@ -1,0 +1,75 @@
+ion-content {
+  --background: #ffffff;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 20px;
+}
+
+.header-section {
+  text-align: center;
+  margin-bottom: 40px;
+
+  .icon-box {
+    background: #3880ff;
+    width: 70px;
+    height: 70px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    ion-icon { font-size: 35px; color: white; }
+  }
+
+  h1 { font-size: 28px; font-weight: 700; color: #222; margin: 0; }
+  p { color: #888; margin-top: 5px; }
+}
+
+.form-section {
+  width: 100%;
+  max-width: 350px;
+}
+
+/* AQUÍ QUITAMOS LOS CUADROS NEGROS */
+.input-item {
+  --background: #f5f7fa; /* Gris muy claro, casi blanco */
+  --border-radius: 12px;
+  --padding-start: 15px;
+  --highlight-height: 0; /* Quita la línea de abajo */
+  margin-bottom: 15px;
+  color: #333;
+
+  ion-icon {
+    color: #3880ff;
+    font-size: 20px;
+    margin-right: 10px;
+  }
+
+  ion-input {
+    --placeholder-color: #999;
+    --color: #333;
+    font-size: 15px;
+  }
+}
+
+.btn-login {
+  --background: #3880ff;
+  --border-radius: 12px;
+  --box-shadow: 0 4px 12px rgba(56, 128, 255, 0.3);
+  height: 55px;
+  margin-top: 25px;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.footer-section {
+  margin-top: 50px;
+  p { color: #888; font-size: 14px; }
+  .link { color: #3880ff; font-weight: 700; cursor: pointer; }
+}

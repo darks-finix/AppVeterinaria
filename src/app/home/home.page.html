@@ -1,0 +1,166 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar style="--background: #ffffff; --padding-top: 10px;">
+    <ion-icon slot="start" name="paw-outline" style="margin-left: 15px; font-size: 24px; color: #333;"></ion-icon>
+    <ion-title style="font-weight: 500; color: #1a1a1a;">Huellitas App</ion-title>
+  </ion-toolbar>
+
+  <div class="user-greeting" style="padding: 0 20px; background: #ffffff;">
+    <h2 style="margin: 0; font-size: 1.5rem; color: #333;">Hola, {{ user.nombre || 'Usuario' }} 👋</h2>
+  </div>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="content-wrapper" style="padding: 10px;">
+
+    <ion-card class="selector-card">
+      <ion-item lines="none">
+        <ion-label style="font-weight: 600; color: #333;">Ver información de:</ion-label>
+        <ion-select [(ngModel)]="mascotaSeleccionadaId" (ionChange)="actualizarInfoMascota()" interface="popover">
+          <ion-select-option *ngFor="let m of mascotas" [value]="m.id">
+            🐶 {{ m.nombre }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-card>
+
+    <ion-card class="selector-card">
+      <ion-item lines="none">
+        <ion-label style="font-weight: 600; color: #333;">📅 Fecha:</ion-label>
+        <ion-datetime-button datetime="datetime"></ion-datetime-button>
+        
+        <ion-modal [keepContentsMounted]="true">
+          <ng-template>
+            <ion-datetime 
+              id="datetime" 
+              presentation="date" 
+              [(ngModel)]="fechaSeleccionada" 
+              (ionChange)="actualizarInfoMascota()">
+            </ion-datetime>
+          </ng-template>
+        </ion-modal>
+      </ion-item>
+    </ion-card>
+
+<ion-card class="info-card" *ngIf="mascotas && mascotas.length > 0 && mascotaSeleccionadaId">
+  <ion-card-header>
+    <ion-card-title class="ion-text-center">PERFIL DE LA MASCOTA</ion-card-title>
+  </ion-card-header>
+  <ion-card-content class="pet-details">
+    <p>🐶 <strong>Nombre:</strong> {{ infoHome.perfil?.nombre }}</p>
+    <p><strong>Especie:</strong> {{ infoHome.perfil?.especie }}</p>
+    <p><strong>Raza:</strong> {{ infoHome.perfil?.raza }}</p>
+    <p><strong>Edad:</strong> {{ infoHome.perfil?.edad }} años</p>
+    <p><strong>Peso:</strong> {{ infoHome.perfil?.peso }} kg</p>
+  </ion-card-content>
+</ion-card>
+
+<div *ngIf="mascotas.length === 0" class="ion-padding ion-text-center">
+  <ion-icon name="paw-outline" style="font-size: 48px; color: #ccc;"></ion-icon>
+  <p style="color: #666;">No tienes mascotas registradas en tu cuenta.</p>
+</div>
+    <ion-card class="info-card">
+      <ion-card-header>
+        <ion-card-title class="ion-text-center">🚦 SEMÁFORO DE BIENESTAR</ion-card-title>
+      </ion-card-header>
+      <ion-grid>
+        <ion-row>
+          <ion-col class="ion-text-center">
+            <ion-icon name="restaurant-outline" style="font-size: 32px; color: hsl(123, 70%, 35%);"></ion-icon>
+            <p style="margin: 5px 0; font-size: 0.8rem;">Comió</p>
+            <ion-badge [color]="infoHome.bienestar.comio === 'VERDE' ? 'success' : 'danger'">
+              {{ infoHome.bienestar.comio === 'VERDE' ? 'SÍ' : 'NO' }}
+            </ion-badge>
+          </ion-col>
+          <ion-col class="ion-text-center">
+            <ion-icon name="walk-outline" style="font-size: 32px; color: #1e88e5;"></ion-icon>
+            <p style="margin: 5px 0; font-size: 0.8rem;">Caminó</p>
+            <ion-badge [color]="infoHome.bienestar.camino === 'VERDE' ? 'success' : 'danger'">
+              {{ infoHome.bienestar.camino === 'VERDE' ? 'SÍ' : 'NO' }}
+            </ion-badge>
+          </ion-col>
+          <ion-col class="ion-text-center">
+            <ion-icon name="flask-outline" style="font-size: 32px; color: #fb8c00;"></ion-icon>
+            <p style="margin: 5px 0; font-size: 0.8rem;">Medicina</p>
+            <ion-badge [color]="infoHome.bienestar.medicina === 'VERDE' ? 'success' : 'danger'">
+              {{ infoHome.bienestar.medicina === 'VERDE' ? 'SÍ' : 'NO' }}
+            </ion-badge>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <p style="text-align: center; font-size: 0.75rem; color: #191414; margin-bottom: 10px;">
+        Mostrando: {{ fechaSeleccionada | date:'dd/MM/yyyy' }}
+      </p>
+    </ion-card>
+
+  <ion-card class="info-card">
+  <ion-card-header>
+    <ion-card-title class="ion-text-center">💉 CARNET DE VACUNACIÓN</ion-card-title>
+  </ion-card-header>
+  
+  <ion-card-content class="card-details" *ngIf="infoHome.vacuna?.nombre_vacuna; else noVac">
+    <p><strong>Vacuna:</strong> {{ infoHome.vacuna.nombre_vacuna }}</p>
+    <p><strong>Fecha:</strong> {{ infoHome.vacuna.fecha_aplicacion | date:'dd/MM/yyyy' }}</p>
+    <p *ngIf="infoHome.vacuna.proxima_dosis">
+      <strong>Próxima:</strong> {{ infoHome.vacuna.proxima_dosis | date:'dd/MM/yyyy' }}
+    </p>
+  </ion-card-content>
+
+  <ng-template #noVac>
+    <p class="ion-text-center" style="padding: 15px; color: #666;">Sin vacunas registradas.</p>
+  </ng-template>
+</ion-card>
+
+    <ion-card class="info-card">
+      <ion-card-header>
+        <ion-card-title class="ion-text-center">🏥 HISTORIAL CLÍNICO</ion-card-title>
+      </ion-card-header>
+      <ion-card-content class="card-details" *ngIf="infoHome.historial?.motivo || infoHome.historial?.diagnostico; else noHistorial">
+        <p><strong>Última consulta:</strong> {{ infoHome.historial.motivo }}</p>
+        <p><strong>Diagnóstico:</strong> {{ infoHome.historial.diagnostico }}</p>
+        <p><strong>Veterinario:</strong> {{ infoHome.historial.veterinario }}</p>
+        <ion-button expand="block" fill="outline" class="view-btn" routerLink="/historial">VER HISTORIAL COMPLETO</ion-button>
+      </ion-card-content>
+      <ng-template #noHistorial><p class="ion-text-center">Sin consultas registradas.</p></ng-template>
+    </ion-card>
+
+ <ion-card class="info-card">
+  <ion-card-header>
+    <ion-card-title class="ion-text-center">🍴 ÚLTIMA ALIMENTACIÓN</ion-card-title>
+  </ion-card-header>
+  
+  <ion-card-content class="card-details" *ngIf="infoHome.alimentacion?.tipo_alimento; else noAlim">
+    <p><strong>Alimento:</strong> {{ infoHome.alimentacion.tipo_alimento }}</p>
+    <p><strong>Cantidad:</strong> {{ infoHome.alimentacion.cantidad }}</p>
+    <p><strong>Fecha:</strong> {{ infoHome.alimentacion.fecha | date:'dd/MM/yyyy' }}</p>
+  </ion-card-content>
+
+  <ng-template #noAlim>
+    <p class="ion-text-center" style="padding: 20px; color: #666;">
+      No hay registros de alimentación para esta mascota.
+    </p>
+  </ng-template>
+</ion-card>
+
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="home" class="selected-tab">
+      <ion-icon name="home-outline"></ion-icon>
+      <ion-label>Inicio</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="mascotas" routerLink="/mascotas">
+      <ion-icon name="paw-outline"></ion-icon>
+      <ion-label>Mascota</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="vacunas" routerLink="/vacunas">
+      <ion-icon name="medkit-outline"></ion-icon>
+      <ion-label>Vacunas</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="perfil" routerLink="/perfil">
+      <ion-icon name="person-outline"></ion-icon>
+      <ion-label>Perfil</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-footer>

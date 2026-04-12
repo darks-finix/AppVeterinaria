@@ -1,0 +1,135 @@
+<ion-header class="ion-no-border">
+  <div class="custom-header">
+    <div class="header-top">
+      <div class="logo-section">
+        <ion-icon name="paw-outline"></ion-icon>
+        <ion-title>Huellitas App</ion-title>
+      </div>
+    </div>
+    <div class="user-info">
+      <h2 style="color: #0c0707;">Hola, {{ user.nombre || 'Usuario' }} 👋</h2>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content>
+  <div class="section-header">
+    <div class="title-with-icon">
+      <ion-icon name="bandage-outline" class="section-icon"></ion-icon>
+      <h1 class="section-title">VACUNAS</h1>
+    </div>
+    <button class="btn-add-vacuna" (click)="abrirModal()">
+      <ion-icon name="add-outline"></ion-icon> Agregar Vacuna
+    </button>
+  </div>
+
+  <div class="vacuna-card" *ngFor="let v of listaVacunas">
+    <div class="card-header">
+      <div class="vacuna-title-group">
+        <h3 style="color: #333; font-weight: bold; margin: 0;">{{ v.nombre_vacuna }}</h3> 
+        <span class="pet-tag-badged">
+          <ion-icon name="paw-outline" style="font-size: 10px;"></ion-icon> 
+          {{ getNombreMascota(v.mascota_id) }}
+        </span>
+      </div>
+      <div class="card-actions">
+        <button class="action-edit" (click)="abrirModal(v)">
+          <ion-icon name="create-outline"></ion-icon>
+        </button>
+        <button class="action-delete" (click)="eliminar(v.id)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </button>
+      </div>
+    </div>
+
+    <div class="card-details-vertical">
+      <div class="detail-row">
+        <div class="detail-item">
+          <label>Fecha de aplicación</label>
+          <p style="color: #444;">{{ v.fecha_aplicacion }}</p> 
+        </div>
+        <div class="detail-item">
+          <label>Próxima dosis</label>
+          <p style="color: #444;">{{ v.proxima_dosis }}</p> 
+        </div>
+      </div>
+      <div class="detail-item">
+        <label>Observaciones</label>
+        <p class="obs-text" style="color: #666;">{{ v.observaciones || 'Sin observaciones' }}</p>
+      </div>
+    </div>
+  </div>
+
+  <ion-modal [isOpen]="isModalOpen" (didDismiss)="isModalOpen = false" class="custom-modal">
+    <ng-template>
+      <div class="modal-wrapper">
+        <div class="modal-header">
+          <div class="modal-text">
+            <h2>{{ editando ? 'Editar Vacuna' : 'Agregar Nueva Vacuna' }}</h2>
+            <p>{{ editando ? 'Actualiza los datos' : 'Registra una nueva vacuna' }}</p>
+          </div>
+          <ion-icon name="close-outline" (click)="isModalOpen = false"></ion-icon>
+        </div>
+
+        <div class="modal-body" style="padding: 15px;">
+          <div class="form-field">
+            <label style="color: black; font-weight: bold;">Mascota</label>
+            <select class="form-input" [(ngModel)]="nuevaVacuna.mascota_id" 
+                    style="background-color: white !important; color: black !important; border: 1px solid #ccc; height: 45px; width: 100%;">
+              <option value="" disabled selected>Selecciona mascota</option>
+              <option *ngFor="let m of listaMascotas" [value]="m.id">
+                {{ m.nombre }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-field" style="margin-top: 15px;">
+            <label style="color: #000; font-weight: bold;">Nombre de la vacuna</label>
+            <input type="text" class="form-input" [(ngModel)]="nuevaVacuna.nombre_vacuna" placeholder="Ej. Triple Felina" style="color: black;">
+          </div>
+
+          <div class="form-field" style="margin-top: 15px;">
+            <label style="color: #000; font-weight: bold;">Fecha de aplicación</label>
+            <input type="date" class="form-input" [(ngModel)]="nuevaVacuna.fecha_aplicacion" style="color: black;">
+          </div>
+
+          <div class="form-field" style="margin-top: 15px;">
+            <label style="color: #000; font-weight: bold;">Próxima dosis</label>
+            <input type="date" class="form-input" [(ngModel)]="nuevaVacuna.proxima_dosis" style="color: black;">
+          </div>
+
+          <div class="form-field" style="margin-top: 15px;">
+            <label style="color: #000; font-weight: bold;">Observaciones</label>
+            <textarea class="form-input" rows="3" [(ngModel)]="nuevaVacuna.observaciones" placeholder="Detalles adicionales..." style="color: black;"></textarea>
+          </div>
+
+          <div class="modal-actions" style="margin-top: 20px;">
+            <button class="btn-cancel" (click)="isModalOpen = false">Cancelar</button>
+            <button class="btn-submit" (click)="guardar()">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="home" routerLink="/home">
+      <ion-icon name="home-outline"></ion-icon>
+      <ion-label>Inicio</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="mascotas" routerLink="/mascotas">
+      <ion-icon name="paw-outline"></ion-icon>
+      <ion-label>Mascota</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="vacunas" class="selected-tab">
+      <ion-icon name="medkit-outline"></ion-icon>
+      <ion-label>Vacunas</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="perfil" routerLink="/perfil">
+      <ion-icon name="person-outline"></ion-icon>
+      <ion-label>Perfil</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-footer>

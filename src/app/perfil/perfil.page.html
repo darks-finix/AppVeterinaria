@@ -1,0 +1,102 @@
+<ion-header class="ion-no-border">
+  <div class="custom-header">
+    <div class="header-top">
+      <div class="logo-section">
+        <ion-icon name="paw-outline"></ion-icon>
+        <ion-title>Huellitas App</ion-title>
+      </div>
+    </div>
+    
+    <div class="user-info">
+      <h2>Hola, {{ user.nombre || 'Usuario' }} 👋</h2>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content>
+  <div class="main-form-card">
+    <div class="profile-header-section">
+      <ion-icon name="person" class="profile-icon"></ion-icon>
+      <h1 class="form-title">MI PERFIL</h1>
+    </div>
+
+    <div class="form-body">
+      <div class="input-group">
+        <label>Nombre</label>
+        <input type="text" [value]="user.nombre" readonly>
+      </div>
+
+      <div class="input-group">
+        <label>Correo electrónico</label>
+        <input type="email" [value]="user.email" readonly>
+      </div>
+
+      <div class="input-group">
+        <label>Teléfono</label>
+        <input type="tel" [value]="user.telefono || 'No registrado'" readonly>
+      </div>
+
+      <div class="action-buttons-container">
+        <button class="btn-primary" id="open-edit-modal">Editar Perfil</button>
+        <button class="btn-danger" (click)="logout()">Cerrar Sesión</button>
+      </div>
+    </div>
+  </div>
+
+  <ion-modal trigger="open-edit-modal" #modalEdit>
+    <ng-template>
+      <div class="modal-wrapper">
+        <div class="modal-header">
+          <div class="header-content">
+            <h3>Editar Perfil</h3>
+            <p>Modifica tu información personal</p>
+          </div>
+          <ion-icon name="close-outline" (click)="modalEdit.dismiss()" class="close-modal-icon"></ion-icon>
+        </div>
+
+        <div class="modal-body">
+          <div class="input-group edit-mode">
+            <label>Nombre</label>
+            <input type="text" [(ngModel)]="editUser.nombre">
+          </div>
+
+          <div class="input-group edit-mode">
+            <label>Correo electrónico</label>
+            <input type="email" [(ngModel)]="editUser.email">
+          </div>
+
+          <div class="input-group edit-mode">
+            <label>Teléfono</label>
+            <input type="tel" [(ngModel)]="editUser.telefono">
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn-cancel" (click)="modalEdit.dismiss()">Cancelar</button>
+            <button class="btn-save" (click)="guardarCambios(modalEdit)">Guardar Cambios</button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="home" routerLink="/home">
+      <ion-icon name="home-outline"></ion-icon>
+      <ion-label>Inicio</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="mascotas" routerLink="/mascotas">
+      <ion-icon name="paw-outline"></ion-icon>
+      <ion-label>Mascota</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="vacunas" routerLink="/vacunas">
+      <ion-icon name="medkit-outline"></ion-icon>
+      <ion-label>Vacunas</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="perfil" class="selected-tab">
+      <ion-icon name="person-outline"></ion-icon>
+      <ion-label>Perfil</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-footer>

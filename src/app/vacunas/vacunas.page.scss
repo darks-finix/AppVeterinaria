@@ -1,0 +1,234 @@
+/* ==========================================
+   ESTILOS GENERALES Y FONDO
+   ========================================== */
+:host {
+  --ion-background-color: #f8f9fb;
+  --ion-text-color: #000000;
+}
+
+ion-content { 
+  --background: #f8f9fb; 
+  --color: #000000;
+
+  /* SCROLL DISCRETO CONFIGURADO */
+  &::part(scroll) {
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent; 
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #e0e0e0; /* Gris muy tenue */
+      border-radius: 10px;
+    }
+  }
+}
+
+/* ==========================================
+   HEADER SUPERIOR (Alineado con el sistema)
+   ========================================== */
+.custom-header {
+  background: #fff;
+  padding: 15px 20px 15px 25px; /* Ajuste a 25px para alineación */
+  border-bottom: 1px solid #f0f0f0;
+  
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    
+    .logo-section {
+      display: flex;
+      align-items: center;
+      ion-icon { font-size: 22px; color: #333; }
+      ion-title { --padding-start: 8px; font-weight: 500; font-size: 1.1rem; color: #000; }
+    }
+  }
+  .user-info {
+    h2 { margin: 0; font-weight: 700; font-size: 1.5rem; color: #1a1a1a; line-height: 1.1; }
+  }
+}
+
+/* ==========================================
+   HEADER DE LA SECCIÓN
+   ========================================== */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 20px 15px 25px;
+
+  .title-with-icon {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    ion-icon { font-size: 26px; color: #3880ff; }
+    .section-title { 
+      margin: 0; 
+      font-size: 20px; 
+      font-weight: 700; 
+      color: #000 !important; 
+    }
+  }
+
+  .btn-add-vacuna {
+    background: #000;
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+}
+
+/* ==========================================
+   TARJETA DE VACUNA (Diseño mejorado)
+   ========================================== */
+.vacuna-card {
+  background: #fff;
+  margin: 0 20px 15px;
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.03);
+  border: 1px solid #f5f5f5;
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 18px;
+    
+    .vacuna-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      h3 { margin: 0; font-size: 1.25rem; font-weight: 800; color: #000; letter-spacing: -0.3px; }
+      .pet-tag-badged { 
+        background: #eef2ff; 
+        color: #3880ff; 
+        padding: 4px 10px; 
+        border-radius: 8px; 
+        font-size: 0.75rem; 
+        font-weight: 700; 
+        width: fit-content;
+      }
+    }
+
+    .card-actions {
+      display: flex; 
+      gap: 10px;
+      button { 
+        width: 42px; 
+        height: 42px; 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 14px;
+        border: none;
+        transition: transform 0.1s ease;
+        &:active { transform: scale(0.95); }
+        ion-icon { font-size: 20px; } 
+      }
+      .action-edit { 
+        background: #f0f7ff !important; 
+        color: #3880ff !important; 
+      }
+      .action-delete { 
+        background: #ff4d4d !important; 
+        color: #ffffff !important; 
+      }
+    }
+  }
+
+  .card-details-vertical {
+    display: flex; 
+    flex-direction: column; 
+    gap: 16px;
+    .detail-row { display: flex; justify-content: flex-start; gap: 30px; }
+    .detail-item {
+      flex: 1;
+      label { display: block; font-size: 0.7rem; color: #9ca3af; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+      p { margin: 2px 0 0; font-size: 0.95rem; font-weight: 600; color: #000; }
+    }
+  }
+}
+
+/* ==========================================
+   MODAL CON SCROLL DISCRETO INTERNO
+   ========================================== */
+.custom-modal {
+  --height: auto;
+  --width: 90%;
+  --max-width: 450px;
+  --border-radius: 28px;
+  --box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  
+  .modal-wrapper { 
+    padding-bottom: 25px; 
+    background: #fff; 
+    border-radius: 28px;
+    max-height: 85vh;
+    overflow-y: auto;
+
+    /* Scroll discreto interno del modal */
+    &::-webkit-scrollbar { width: 4px; }
+    &::-webkit-scrollbar-thumb { background: #f0f0f0; border-radius: 10px; }
+  }
+
+  .modal-header {
+    padding: 25px 25px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    h2 { margin: 0; font-size: 1.4rem; font-weight: 900; color: #000; letter-spacing: -0.5px; }
+  }
+
+  .modal-body {
+    padding: 0 25px;
+    .form-field {
+      margin-bottom: 18px;
+      label { display: block; font-weight: 700; font-size: 0.85rem; margin-bottom: 8px; color: #000; }
+      .form-input {
+        width: 100%; 
+        background: #f4f6f8; 
+        border: 1.5px solid transparent; 
+        border-radius: 14px; 
+        padding: 14px 18px; 
+        color: #000;
+        font-size: 0.95rem;
+        &:focus { border-color: #000; background: #fff; outline: none; }
+      }
+    }
+    .modal-actions {
+      display: flex; gap: 12px; margin-top: 25px;
+      button { 
+        flex: 1; padding: 16px; border-radius: 14px; font-weight: 800; border: none;
+        transition: transform 0.1s ease;
+        &:active { transform: scale(0.98); }
+      }
+      .btn-cancel { background: #fff; border: 1px solid #eee; color: #555; }
+      .btn-submit { background: #000; color: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    }
+  }
+}
+
+/* ==========================================
+   FOOTER / TABS
+   ========================================== */
+/* TAB BAR INFERIOR */
+ion-tab-bar { 
+  --background: #fff; 
+  height: 70px; 
+  border-top: 1px solid #f2f2f2; 
+  ion-tab-button {
+    --color: #bbb;
+    &.selected-tab { --color: #3880ff; }
+  }
+}

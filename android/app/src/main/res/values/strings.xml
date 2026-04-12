@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">HuellitasApp</string>
+    <string name="title_activity_main">HuellitasApp</string>
+    <string name="package_name">com.huellitas.app</string>
+    <string name="custom_url_scheme">com.huellitas.app</string>
+</resources>

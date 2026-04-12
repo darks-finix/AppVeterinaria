@@ -1,0 +1,151 @@
+<ion-header class="ion-no-border">
+  <div class="custom-header">
+    <div class="brand">
+      <ion-icon name="paw-outline"></ion-icon>
+      <span>Huellitas App</span>
+    </div>
+    <h1 class="user-welcome">Hola, {{ user.nombre || 'Usuario' }} 👋</h1>
+  </div>
+
+  <div class="segment-container">
+    <button [routerLink]="['/mascotas']" [class.active]="router.url.includes('mascotas')">Lista Mascotas</button>
+    <button [routerLink]="['/controldiario']" [class.active]="router.url.includes('controldiario')">Control Diario</button>
+    <button [routerLink]="['/alimentacion']" [class.active]="router.url.includes('alimentacion')">Alimentación</button>
+    <button [routerLink]="['/historial']" [class.active]="router.url.includes('historial')">Historial Clínico</button>
+    <button [routerLink]="['/recordatorios']" [class.active]="router.url.includes('recordatorios')">Notas y Recordatorios</button>
+  </div>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="section-header">
+    <div class="title-group">
+      <span class="emoji">🏥</span>
+      <h2 class="section-title">HISTORIAL CLÍNICO</h2>
+    </div>
+    <button class="btn-add-main" (click)="abrirModal()">
+      <ion-icon name="add"></ion-icon>
+      Agregar Consulta
+    </button>
+  </div>
+
+  <div class="ion-padding-horizontal">
+    <div *ngFor="let consulta of listaHistorial" class="styled-card">
+      <div class="card-top">
+        <div class="date-info">
+          <h3>{{ consulta.fecha | date:"d 'de' MMMM, yyyy":"":"es" }}</h3>
+          <span class="pet-badge">{{ getNombreMascota(consulta.mascota_id) }}</span>
+        </div>
+        <div class="card-actions">
+          <button class="action-btn edit" (click)="abrirModal(consulta)">
+            <ion-icon name="create-outline"></ion-icon>
+          </button>
+          <button class="action-btn delete" (click)="eliminar(consulta.id)">
+            <ion-icon name="trash-outline"></ion-icon>
+          </button>
+        </div>
+      </div>
+
+      <div class="card-body-grid">
+        <div class="info-box" style="grid-column: span 2;" *ngIf="consulta.veterinario">
+          <label>Médico Veterinario</label>
+          <p class="vet-name-text">Dr(a). {{ consulta.veterinario }}</p>
+        </div>
+        <div class="info-box" style="grid-column: span 2;">
+          <label>Motivo</label>
+          <p>{{ consulta.motivo }}</p>
+        </div>
+        <div class="info-box">
+          <label>Diagnóstico</label>
+          <p>{{ consulta.diagnostico }}</p>
+        </div>
+        <div class="info-box" *ngIf="consulta.tratamiento">
+          <label>Tratamiento</label>
+          <p>{{ consulta.tratamiento }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="listaHistorial.length === 0" style="text-align: center; margin-top: 20px;">
+      <p>No hay registros médicos para mostrar.</p>
+    </div>
+  </div>
+
+  <ion-modal [isOpen]="isModalOpen" (didDismiss)="isModalOpen = false" class="custom-modal centered">
+    <ng-template>
+      <div class="modal-wrapper">
+        <div class="modal-header">
+          <div>
+            <h2>{{ editando ? 'Editar' : 'Agregar' }} Consulta</h2>
+            <p>Registra los detalles médicos</p>
+          </div>
+          <ion-icon name="close" class="close-icon" (click)="isModalOpen = false"></ion-icon>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="modal-label">Mascota</label>
+            <select [(ngModel)]="nuevaConsulta.mascota_id" class="figma-input">
+              <option value="" disabled>Selecciona mascota</option>
+              <option *ngFor="let m of listaMascotas" [value]="m.id">{{ m.nombre }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="modal-label">Fecha de consulta</label>
+            <input type="date" [(ngModel)]="nuevaConsulta.fecha" class="figma-input">
+          </div>
+          <div class="form-group">
+            <label class="modal-label">Médico Veterinario</label>
+            <input type="text" [(ngModel)]="nuevaConsulta.veterinario" placeholder="Nombre del doctor" class="figma-input">
+          </div>
+          <div class="form-group">
+            <label class="modal-label">Motivo</label>
+            <input type="text" [(ngModel)]="nuevaConsulta.motivo" placeholder="Ej: Revisión general" class="figma-input">
+          </div>
+          <div class="form-group">
+            <label class="modal-label">Diagnóstico</label>
+            <textarea [(ngModel)]="nuevaConsulta.diagnostico" placeholder="Detalles del diagnóstico..." class="figma-input" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="modal-label">Tratamiento (Opcional)</label>
+            <input type="text" [(ngModel)]="nuevaConsulta.tratamiento" placeholder="Medicamentos sugeridos" class="figma-input">
+          </div>
+          <div class="modal-footer">
+            <button class="btn-cancel" (click)="isModalOpen = false">Cancelar</button>
+            <button class="btn-save" (click)="guardar()">
+              {{ editando ? 'Actualizar' : 'Guardar' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="home" routerLink="/home">
+      <ion-icon name="home-outline"></ion-icon>
+      <ion-label>Inicio</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button 
+      tab="mascotas" 
+      routerLink="/mascotas"
+      [class.selected-tab]="router.url.includes('mascotas') || 
+                           router.url.includes('controldiario') || 
+                           router.url.includes('alimentacion') || 
+                           router.url.includes('historial')">
+      <ion-icon name="paw-outline"></ion-icon>
+      <ion-label>Mascotas</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="vacunas" routerLink="/vacunas">
+      <ion-icon name="medkit-outline"></ion-icon>
+      <ion-label>Vacunas</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="perfil" routerLink="/perfil">
+      <ion-icon name="person-outline"></ion-icon>
+      <ion-label>Perfil</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-footer>

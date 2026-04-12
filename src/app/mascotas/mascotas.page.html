@@ -1,0 +1,147 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="main-header">
+    <ion-icon slot="start" name="paw-outline" class="top-icon"></ion-icon>
+    <ion-title>Huellitas App</ion-title>
+  </ion-toolbar>
+
+  <div class="header-content">
+    <h2 class="user-name">Hola, {{ user.nombre || 'Usuario' }} 👋</h2>
+  </div>
+
+  <div class="segment-container">
+    <button [class.active]="seccionActiva === 'lista'" (click)="seccionActiva = 'lista'">Lista Mascotas</button>
+    <button class="filter-btn" routerLink="/controldiario"
+      style="white-space: nowrap; padding: 8px 15px; border-radius: 20px; border: 1px solid #e0e0e0; background: white; color: #333; font-weight: 600; cursor: pointer;">
+      Control Diario</button>
+    <button (click)="irAAlimentacion()">Alimentación</button>
+    <button (click)="irAHistorial()">Historial clínico</button>
+    <button (click)="irARecomendaciones()">Notas y Recordatorios</button>
+  </div>
+</ion-header>
+
+<ion-content>
+  <div class="section-title-container">
+    <h1 class="main-section-title">MIS MASCOTAS</h1>
+    <button class="btn-add-pet" (click)="abrirModal()">
+      <ion-icon name="add-outline"></ion-icon> Agregar Mascota
+    </button>
+  </div>
+
+  <div class="pet-list-container">
+    <div class="pet-card" *ngFor="let m of listaMascotas">
+      <div class="card-header">
+        <h3>{{ m.nombre }}</h3>
+        <div class="card-actions">
+          <button class="edit-btn" (click)="prepararEdicion(m)">
+            <ion-icon name="create-outline"></ion-icon>
+          </button>
+          <button class="delete-btn" (click)="eliminarMascota(m.id)">
+            <ion-icon name="trash-outline"></ion-icon>
+          </button>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <p><strong>Especie:</strong> {{ m.especie }}</p>
+        <p><strong>Raza:</strong> {{ m.raza }}</p>
+        <p><strong>Edad:</strong> {{ m.edad }} años</p>
+        <p><strong>Peso:</strong> {{ m.peso }} kg</p>
+        <p><strong>Sexo:</strong> {{ m.sexo }}</p>
+        <p><strong>Alergias:</strong> {{ m.alergias || 'Ninguna' }}</p>
+      </div>
+    </div>
+
+    <div *ngIf="listaMascotas.length === 0" class="empty-state">
+      <p>No hay mascotas registradas.</p>
+    </div>
+  </div>
+
+  <ion-modal [isOpen]="isModalOpen" (didDismiss)="cerrarModal()" class="custom-modal">
+    <ng-template>
+      <div class="modal-wrapper">
+        <div class="modal-header">
+          <div class="modal-title-group">
+            <h2>{{ editando ? 'Editar Mascota' : 'Agregar Nueva Mascota' }}</h2>
+            <p>Completa los datos de tu mascota</p>
+          </div>
+          <ion-icon name="close-outline" (click)="cerrarModal()" class="close-modal-icon"></ion-icon>
+        </div>
+
+        <div class="modal-scroll-content">
+          <div class="input-group">
+            <label>Nombre</label>
+            <input type="text" [(ngModel)]="nuevaMascota.nombre" placeholder="Nombre de la mascota">
+          </div>
+          <div class="input-group">
+            <label>Especie</label>
+            <select [(ngModel)]="nuevaMascota.especie">
+              <option value="">Selecciona especie</option>
+              <option value="Perro">Perro</option>
+              <option value="Gato">Gato</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+
+          <div class="input-group" *ngIf="nuevaMascota.especie === 'Otro'">
+            <label>¿Qué especie es?</label>
+            <input type="text" [(ngModel)]="otraEspecieNombre" placeholder="¿Será un dragón?">
+          </div>
+          <div class="input-group">
+            <label>Raza</label>
+            <input type="text" [(ngModel)]="nuevaMascota.raza" placeholder="Raza de la mascota">
+          </div>
+          <div class="input-row">
+            <div class="input-group">
+              <label>Edad</label>
+              <input type="number" [(ngModel)]="nuevaMascota.edad" placeholder="Ej: 3">
+            </div>
+            <div class="input-group">
+              <label>Peso</label>
+              <input type="number" [(ngModel)]="nuevaMascota.peso" placeholder="Ej: 25.5">
+            </div>
+          </div>
+          <div class="input-group">
+            <label>Sexo</label>
+            <select [(ngModel)]="nuevaMascota.sexo">
+              <option value="">Selecciona sexo</option>
+              <option value="Macho">Macho</option>
+              <option value="Hembra">Hembra</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label>Alergias</label>
+            <textarea rows="2" [(ngModel)]="nuevaMascota.alergias" placeholder="Describe alergias..."></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn-modal-cancel" (click)="cerrarModal()">Cancelar</button>
+          <button class="btn-modal-save" (click)="guardarMascota()">
+            {{ editando ? 'Guardar Cambios' : 'Guardar Mascota' }}
+          </button>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="home" routerLink="/home">
+      <ion-icon name="home-outline"></ion-icon>
+      <ion-label>Inicio</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="mascotas" class="selected-tab">
+      <ion-icon name="paw-outline"></ion-icon>
+      <ion-label>Mascota</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="vacunas" routerLink="/vacunas">
+      <ion-icon name="medkit-outline"></ion-icon>
+      <ion-label>Vacunas</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="perfil" routerLink="/perfil">
+      <ion-icon name="person-outline"></ion-icon>
+      <ion-label>Perfil</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-footer>

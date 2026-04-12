@@ -1,0 +1,223 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <div class="brand-top">
+      <ion-icon name="paw" class="brand-icon"></ion-icon>
+      <span class="brand-name">Huellitas App</span>
+    </div>
+    <div class="user-greeting-wrap">
+      <h2 class="user-greeting">Hola, {{ usuarioNombre }} 👋</h2>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="main-content">
+
+  <div class="top-nav-scroll">
+    <button class="top-nav-btn" routerLink="/mascotas">Lista Mascotas</button>
+    <button class="top-nav-btn" routerLink="/controldiario">Control Diario</button>
+    <button class="top-nav-btn" routerLink="/alimentacion">Alimentación</button>
+    <button class="top-nav-btn" routerLink="/historial">Historial clínico</button>
+    <button class="top-nav-btn top-nav-active">Notas y Recordatorios</button>
+  </div>
+
+  <div class="section-header">
+    <div class="section-title-wrap">
+      <ion-icon name="reader-outline" class="section-icon"></ion-icon>
+      <h2 class="section-title">RECORDATORIOS Y NOTAS</h2>
+    </div>
+    <div class="header-actions">
+      <div class="view-toggle">
+        <button class="toggle-btn" [class.toggle-active]="viewMode === 'lista'" (click)="viewMode = 'lista'">
+          Lista
+        </button>
+        <button class="toggle-btn" [class.toggle-active]="viewMode === 'calendario'" (click)="viewMode = 'calendario'">
+          <ion-icon name="calendar-outline"></ion-icon>
+          Calendario
+        </button>
+      </div>
+      <button class="add-btn" (click)="abrirAgregar()">+ Agregar</button>
+    </div>
+  </div>
+
+  <div class="cal-wrapper" *ngIf="viewMode === 'calendario'">
+    <div class="cal-card">
+
+      <div class="cal-nav">
+        <button class="cal-arrow-btn" (click)="cambiarMes(-1)">
+          <ion-icon name="chevron-back-outline"></ion-icon>
+        </button>
+        <span class="cal-month-title">{{ nombresMeses[mesActual] }} De {{ anioActual }}</span>
+        <button class="cal-arrow-btn" (click)="cambiarMes(1)">
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+        </button>
+      </div>
+
+      <div class="cal-weekdays">
+        <div class="wday" *ngFor="let d of diasSemana">{{ d }}</div>
+      </div>
+
+      <div class="cal-grid">
+        <div class="cal-cell cal-cell--empty" *ngFor="let v of vacioInicial"></div>
+
+        <div
+          class="cal-cell"
+          *ngFor="let dia of diasEnMes"
+          [class.cal-cell--today]="dia.esHoy"
+        >
+          <span class="cal-day-num" [class.today-num]="dia.esHoy">{{ dia.numero }}</span>
+
+          <div class="cal-stickers">
+            <div
+              class="cal-sticker"
+              *ngFor="let nota of dia.notas.slice(0, 2)"
+              [class.sticker--nota]="nota.tipo === 'Nota'"
+              [class.sticker--recordatorio]="nota.tipo === 'Recordatorio'"
+              [class.sticker--cita]="nota.tipo === 'Cita'"
+              [class.sticker--med]="nota.tipo === 'Medicamento'"
+              (click)="$event.stopPropagation(); abrirEditar(nota)"
+            >
+              <span class="sticker-icon">{{ getTipoIcon(nota.tipo) }}</span>
+              <div class="sticker-content">
+                <span class="sticker-title">{{ nota.titulo | slice:0:13 }}{{ nota.titulo.length > 13 ? '...' : '' }}</span>
+                <span class="sticker-desc" *ngIf="nota.descripcion">{{ nota.descripcion | slice:0:15 }}{{ nota.descripcion.length > 15 ? '...' : '' }}</span>
+                <span class="sticker-mascota" *ngIf="nota.mascota_id">
+                  <ion-icon name="paw-outline"></ion-icon> {{ getNombreMascota(nota.mascota_id) }}
+                </span>
+              </div>
+            </div>
+            <div class="sticker-more" *ngIf="dia.notas.length > 2">+{{ dia.notas.length - 2 }}</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="list-wrapper" *ngIf="viewMode === 'lista'">
+
+    <div class="empty-state" *ngIf="listaNotas.length === 0">
+      <ion-icon name="reader-outline" class="empty-icon"></ion-icon>
+      <p>No hay recordatorios aún</p>
+      <span>Toca <strong>+ Agregar</strong> para crear uno</span>
+    </div>
+
+    <div class="nota-card" *ngFor="let nota of listaNotas">
+
+      <div class="nota-check" [class.nota-check--done]="nota.completada == 1" (click)="toggleCompletada(nota)">
+        <ion-icon name="checkmark" *ngIf="nota.completada == 1"></ion-icon>
+      </div>
+
+      <span class="nota-tipo-icon">{{ getTipoIcon(nota.tipo) }}</span>
+
+      <div class="nota-body" [class.nota-body--done]="nota.completada == 1">
+        <div class="nota-title-row">
+          <span class="nota-titulo">{{ nota.titulo }}</span>
+          <span class="nota-badge" *ngIf="nota.mascota_id">{{ getNombreMascota(nota.mascota_id) }}</span>
+        </div>
+        <p class="nota-desc" *ngIf="nota.descripcion">{{ nota.descripcion }}</p>
+        <p class="nota-fecha">{{ formatearFecha(nota.fecha) }}</p>
+      </div>
+
+      <div class="nota-actions">
+        <button class="icon-btn icon-btn--edit" (click)="abrirEditar(nota)">
+          <ion-icon name="create-outline"></ion-icon>
+        </button>
+        <button class="icon-btn icon-btn--delete" (click)="confirmarEliminar(nota.id)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-tab-bar slot="bottom" class="custom-tab-bar">
+    <ion-tab-button routerLink="/home">
+      <ion-icon name="home-outline"></ion-icon>
+      <ion-label>Inicio</ion-label>
+    </ion-tab-button>
+    <ion-tab-button routerLink="/mascotas" selected>
+      <ion-icon name="paw-outline"></ion-icon>
+      <ion-label>Mascota</ion-label>
+    </ion-tab-button>
+    <ion-tab-button routerLink="/vacunas">
+      <ion-icon name="medkit-outline"></ion-icon>
+      <ion-label>Vacunas</ion-label>
+    </ion-tab-button>
+    <ion-tab-button routerLink="/perfil">
+      <ion-icon name="person-outline"></ion-icon>
+      <ion-label>Perfil</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-footer>
+
+<ion-modal
+  [isOpen]="isModalOpen"
+  (didDismiss)="cerrarModal()"
+  [backdropDismiss]="true"
+  cssClass="centered-modal"
+>
+  <ng-template>
+    <div class="modal-box">
+
+      <div class="modal-header">
+        <div class="modal-header-text">
+          <h2 class="modal-title">{{ isEditMode ? 'Editar Recordatorio/Nota' : 'Agregar Recordatorio/Nota' }}</h2>
+          <p class="modal-subtitle" *ngIf="!isEditMode">Crea un nuevo recordatorio o nota</p>
+        </div>
+        <button class="modal-close-btn" (click)="cerrarModal()">✕</button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Tipo</label>
+        <div class="select-wrap">
+          <select class="form-select" [(ngModel)]="notaForm.tipo">
+            <option value="Nota">📝 Nota</option>
+            <option value="Recordatorio">🔔 Recordatorio</option>
+            <option value="Cita">📅 Cita</option>
+            <option value="Medicamento">💊 Medicamento</option>
+          </select>
+          <ion-icon name="chevron-down-outline" class="select-chevron"></ion-icon>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Mascota (opcional)</label>
+        <div class="select-wrap">
+          <select class="form-select" [(ngModel)]="notaForm.mascota_id">
+            <option [ngValue]="null">Ninguna</option>
+            <option *ngFor="let m of mascotas" [value]="m.id">{{ m.nombre }}</option>
+          </select>
+          <ion-icon name="chevron-down-outline" class="select-chevron"></ion-icon>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Título</label>
+        <input class="form-input" type="text" [(ngModel)]="notaForm.titulo" placeholder="Ej. Cita con veterinario" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Descripción</label>
+        <textarea class="form-input form-textarea" [(ngModel)]="notaForm.descripcion" placeholder="Detalles adicionales..." rows="3"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Fecha</label>
+        <input class="form-input" type="date" [(ngModel)]="notaForm.fecha" />
+      </div>
+
+      <p class="form-error" *ngIf="formError">{{ formError }}</p>
+
+      <div class="modal-footer-row">
+        <button class="btn-cancel" (click)="cerrarModal()">Cancelar</button>
+        <button class="btn-save" (click)="guardar()" [disabled]="guardando">
+          {{ guardando ? 'Guardando...' : (isEditMode ? 'Guardar Cambios' : 'Guardar') }}
+        </button>
+      </div>
+
+    </div>
+  </ng-template>
+</ion-modal>

@@ -1,0 +1,274 @@
+:host {
+  --ion-background-color: #f8f9fb;
+  --ion-text-color: #000000;
+}
+
+/* ==========================================
+   ESTRUCTURA DE CABECERA FIJA
+   ========================================== */
+ion-header {
+  background: white;
+  border-bottom: 1px solid #f0f0f0;
+  
+  /* Eliminamos sombras por defecto de Ionic para un look limpio */
+  &.ion-no-border {
+    --border-width: 0;
+  }
+}
+
+/* HEADER PRINCIPAL */
+.custom-header {
+  background: white;
+  padding: 20px 20px 10px;
+  .brand { 
+    display: flex; 
+    align-items: center; 
+    gap: 8px; 
+    color: #100d0d; 
+    font-size: 20px; 
+  }
+  h1.user-welcome { 
+    font-weight: 700; 
+    font-size: 1.5rem; 
+    margin: 9px 0 0; 
+    color: #000; 
+  }
+}
+
+/* NAVEGACIÓN SUPERIOR (BOTONES) */
+.segment-container {
+  display: flex; 
+  overflow-x: auto; 
+  padding: 15px 20px; 
+  background: #fff; 
+  gap: 10px; 
+  
+  /* Ocultar scrollbar del contenedor de botones */
+  &::-webkit-scrollbar { display: none; }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  
+  button {
+    background: #fff; 
+    border: 1px solid #eee; 
+    border-radius: 12px; 
+    padding: 10px 18px;
+    white-space: nowrap; 
+    font-size: 0.85rem; 
+    font-weight: 700; 
+    color: #555;
+    transition: all 0.3s ease;
+
+    &.active { 
+      background: #000 !important; 
+      color: #fff !important; 
+      border-color: #000; 
+    }
+  }
+}
+
+/* ==========================================
+   CONTENIDO DESLIZABLE
+   ========================================== */
+ion-content {
+  --background: #f8f9fb;
+  --color: #000000;
+
+  /* Estilo del scroll discreto para el contenido principal */
+  &::part(scroll) {
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #f0f0f0;
+      border-radius: 10px;
+    }
+  }
+}
+
+/* SECCIÓN TÍTULO Y BOTÓN AGREGAR */
+.section-header {
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  padding: 20px 12px 10px; /* Ajuste de padding para respiro */
+  
+  .title-group {
+    display: flex; 
+    align-items: center; 
+    gap: 8px;
+    .emoji { font-size: 1.4rem; }
+    .section-title { font-size: 20px; font-weight: 700; color: #000; }
+  }
+  .btn-add-main {
+    background: #000; 
+    color: #fff; 
+    border-radius: 12px; 
+    padding: 10px 16px;
+    font-weight: 700; 
+    font-size: 0.75rem; 
+    display: flex; 
+    align-items: center; 
+    gap: 6px; 
+    border: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+}
+
+/* TARJETAS DE HISTORIAL */
+.styled-card {
+  background: #ffffff !important; 
+  border-radius: 20px; 
+  padding: 18px; 
+  margin: 0 12px 15px; /* Ajustado para márgenes laterales */
+  border: 1px solid #f2f2f2; 
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+
+  .card-top {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: flex-start;
+    border-bottom: 1px solid #f9f9f9; 
+    padding-bottom: 12px; 
+    margin-bottom: 12px;
+
+    .date-info {
+      h3 { margin: 0; font-weight: 700; font-size: 0.95rem; color: #000; text-transform: capitalize; }
+      .pet-badge {
+        background: #e1f0ff; 
+        color: #3880ff; 
+        padding: 4px 10px; 
+        border-radius: 8px;
+        font-size: 0.65rem; 
+        font-weight: 700; 
+        margin-top: 5px; 
+        display: inline-block;
+      }
+    }
+
+    .card-actions {
+      display: flex; 
+      gap: 8px;
+      .action-btn {
+        width: 32px; height: 32px; border-radius: 10px; 
+        display: flex; align-items: center; justify-content: center;
+        border: 1px solid #eee; background: #fff;
+        &.edit { color: #3880ff; background: #f0f7ff; border-color: #d0e4ff; }
+        &.delete { background: #ff4d4d; color: #fff; border: none; }
+      }
+    }
+  }
+
+  .card-body-grid {
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 12px;
+    .info-box {
+      label { font-size: 0.65rem; color: #999; text-transform: uppercase; font-weight: 700; }
+      p { margin: 4px 0 0; font-weight: 600; color: #333; font-size: 0.85rem; }
+      .vet-name-text { color: #3880ff; font-weight: 700; }
+    }
+  }
+}
+
+/* ==========================================
+   MODAL Y FORMULARIO (SCROLL DISCRETO)
+   ========================================== */
+.custom-modal.centered {
+  --height: auto; 
+  --width: 92%; 
+  --max-width: 450px; 
+  --border-radius: 28px;
+  
+  &::part(content) {
+    background: #ffffff;
+    border-radius: 28px;
+  }
+
+  .modal-wrapper { 
+    padding: 24px; 
+    background: #ffffff !important; 
+    max-height: 85vh;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar { width: 4px; }
+    &::-webkit-scrollbar-track { background: transparent; }
+    &::-webkit-scrollbar-thumb {
+      background: #f0f0f0; 
+      border-radius: 10px;
+    }
+
+    .modal-header {
+      display: flex; 
+      justify-content: space-between; 
+      margin-bottom: 20px;
+      h2 { margin: 0; font-weight: 800; font-size: 1.2rem; color: #000; }
+      p { margin: 4px 0 0; color: #888; font-size: 0.8rem; }
+      .close-icon { font-size: 1.5rem; color: #333; cursor: pointer; }
+    }
+  }
+}
+
+.form-group {
+  margin-bottom: 16px;
+  label { 
+    display: block; 
+    font-weight: 700; 
+    font-size: 0.85rem; 
+    margin-bottom: 6px; 
+    color: #000000 !important; 
+  }
+
+  .figma-input {
+    width: 100%; 
+    background: #f1f3f5; 
+    border-radius: 12px; 
+    padding: 12px;
+    border: 2px solid transparent; 
+    font-size: 0.95rem; 
+    color: #000 !important;
+    
+    &[type="date"] {
+      font-family: inherit;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+    }
+
+    &:focus { 
+      border-color: #000; 
+      background: #fff; 
+      outline: none; 
+    }
+  }
+}
+
+.modal-footer {
+  display: flex; 
+  justify-content: flex-end; 
+  gap: 10px; 
+  margin-top: 24px;
+  button { 
+    padding: 12px 24px; 
+    border-radius: 12px; 
+    font-weight: 700; 
+    border: none; 
+    font-size: 0.9rem;
+  }
+  .btn-cancel { background: #f8f9fa; color: #495057; border: 1px solid #eee; }
+  .btn-save { background: #000; color: #fff; }
+}
+
+/* TAB BAR INFERIOR */
+ion-tab-bar { 
+  --background: #fff; 
+  height: 70px; 
+  border-top: 1px solid #f2f2f2; 
+  ion-tab-button {
+    --color: #bbb;
+    &.selected-tab { --color: #3880ff; }
+  }
+}

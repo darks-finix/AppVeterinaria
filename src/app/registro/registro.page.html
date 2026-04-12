@@ -1,0 +1,40 @@
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="login-container">
+
+    <div class="header-section">
+      <h1>Crear Cuenta</h1>
+      <p>Regístrate para cuidar a tu mascota</p>
+    </div>
+
+    <div class="form-section">
+      <ion-item lines="none" class="input-item">
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <ion-input type="text" [(ngModel)]="usuario.nombre" placeholder="Nombre completo"></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-item">
+        <ion-icon name="mail-outline" slot="start"></ion-icon>
+        <ion-input type="email" inputmode="email" [(ngModel)]="usuario.email" placeholder="Correo electrónico">
+        </ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-item">
+        <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+        <ion-input type="password" [(ngModel)]="usuario.contrasenia" placeholder="Contraseña"></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-item">
+        <ion-icon name="call-outline" slot="start"></ion-icon>
+        <ion-input type="tel" [(ngModel)]="usuario.telefono" placeholder="Teléfono"></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" class="btn-login" (click)="registrarse()">
+        REGISTRARSE
+      </ion-button>
+    </div>
+
+    <div class="footer-section">
+      <p>¿Ya tienes una cuenta? <span class="link" routerLink="/login">Inicia sesión</span></p>
+    </div>
+  </div>
+</ion-content>
