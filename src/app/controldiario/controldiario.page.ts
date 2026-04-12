@@ -21,8 +21,9 @@ import {
 export class ControlDiarioPage implements OnInit {
   
   user: any = { id: null, nombre: '' };
-  private apiUrl = 'http://192.168.1.84/Veterinaria/web/index.php/control-diario';
-  private apiMascotas = 'http://192.168.1.84/Veterinaria/web/index.php/mascotas';
+// Cambia las líneas por estas:
+private apiUrl = 'http://veterinaria-huellitas.infinityfreeapp.com/web/index.php/control-diario';
+private apiMascotas = 'http://veterinaria-huellitas.infinityfreeapp.com/web/index.php/mascotas';
 
   isModalOpen = false;
   editando = false;

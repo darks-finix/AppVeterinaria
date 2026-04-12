@@ -22,8 +22,8 @@ export class VacunasPage implements OnInit {
   user: any = { id: null, nombre: '' };
   
   // IP DE TU RED (Igual que en historial)
-  private apiUrl = 'http://192.168.1.84/Veterinaria/web/index.php/vacunas';
-  private apiMascotas = 'http://192.168.1.84/Veterinaria/web/index.php/mascotas';
+  private apiUrl = 'http://veterinaria-huellitas.infinityfreeapp.com/web/index.php/vacunas';
+  private apiMascotas = 'http://veterinaria-huellitas.infinityfreeapp.com/web/index.php/mascotas';
 
   listaVacunas: any[] = [];
   listaMascotas: any[] = [];
