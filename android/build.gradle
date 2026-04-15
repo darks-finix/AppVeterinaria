@@ -22,8 +22,10 @@ allprojects {
         google()
         mavenCentral()
     }
-    // ESTO ES LO QUE SOLUCIONA EL ERROR DE JAVA EN TODO EL PROYECTO
+
+    // ESTO OBLIGA A TODO (APP Y PLUGINS) A USAR JAVA 17
     tasks.withType(JavaCompile) {
-        options.compilerArgs << "-source" << "17" << "-target" << "17"
+        sourceCompatibility = '17'
+        targetCompatibility = '17'
     }
 }
