@@ -25,7 +25,7 @@ allprojects {
 
     // ESTO OBLIGA A TODO (APP Y PLUGINS) A USAR JAVA 17
     tasks.withType(JavaCompile) {
-        sourceCompatibility = '21'
-        targetCompatibility = '21'
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
     }
 }
