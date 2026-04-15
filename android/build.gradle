@@ -22,8 +22,8 @@ allprojects {
         google()
         mavenCentral()
     }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
+    // ESTO ES LO QUE SOLUCIONA EL ERROR DE JAVA EN TODO EL PROYECTO
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << "-source" << "17" << "-target" << "17"
+    }
 }
