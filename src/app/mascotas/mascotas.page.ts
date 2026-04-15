@@ -53,7 +53,7 @@ export class MascotasPage implements OnInit {
   };
 
   // Asegúrate de que esta IP sea la correcta de tu servidor
-  private urlApi = 'http://veterinaria-huellitas.infinityfreeapp.com/web/index.php/mascotas';
+  private urlApi = 'http://10.40.213.31/Veterinaria/web/index.php/mascotas';
 
   constructor(private http: HttpClient, private router: Router) {
     addIcons({

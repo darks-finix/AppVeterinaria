@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class AuthService {
 
 
-  private baseUrl = 'http://192.168.1.84/Veterinaria/web/usuarios';
+  private baseUrl = 'http://10.40.213.31/Veterinaria/web/usuarios';
 
   constructor(private http: HttpClient) { }
 

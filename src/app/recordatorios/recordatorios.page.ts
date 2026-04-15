@@ -51,8 +51,8 @@ export class RecordatoriosPage implements OnInit {
 
   // ── API ───────────────────────────────────────────────────────
   // ⚠️ Asegúrate de usar la IP de tu servidor (ej: 192.168.x.x) para pruebas en físico
-  private apiUrl      = 'http://veterinaria-huellitas.infinityfreeapp.com/web/index.php/notas-recordatorios';
-  private mascotasUrl = 'http://veterinaria-huellitas.infinityfreeapp.com/web/index.php/mascotas';
+  private apiUrl      = 'http://10.40.213.31/Veterinaria/web/index.php/notas-recordatorios';
+  private mascotasUrl = 'http://10.40.213.31/Veterinaria/web/index.php/mascotas';
 
   // ── ESTADO UI ─────────────────────────────────────────────────
   viewMode: 'lista' | 'calendario' = 'lista';

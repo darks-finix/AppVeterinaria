@@ -7,7 +7,7 @@ import { Observable } from 'rxjs'; // ESTA ES LA LÍNEA QUE FALTA
 })
 export class VacunaService {
   // Asegúrate de usar la IP 192.168.1.133 para evitar errores de conexión
-  private apiURL = 'http://192.168.1.84/Veterinaria/web/index.php/vacunas';
+  private apiURL = 'http://10.40.213.31/Veterinaria/web/index.php/vacunas';
 
   constructor(private http: HttpClient) {}
 

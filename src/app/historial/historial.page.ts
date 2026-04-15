@@ -24,8 +24,8 @@ export class HistorialPage implements OnInit {
   
   user: any = { id: null, nombre: '' };
   
-  private apiUrl = 'http://veterinaria-huellitas.infinityfreeapp.com/web/index.php/historial-clinico';
-  private apiMascotas = 'http://veterinaria-huellitas.infinityfreeapp.com/web/index.php/mascotas';
+  private apiUrl = 'http://10.40.213.31/Veterinaria/web/index.php/historial-clinico';
+  private apiMascotas = 'http://10.40.213.31/Veterinaria/web/index.php/mascotas';
 
   listaHistorial: any[] = [];
   listaMascotas: any[] = [];

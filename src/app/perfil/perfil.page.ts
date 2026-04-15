@@ -73,7 +73,7 @@ export class PerfilPage {
     }
 
     // URL dinámica con el ID del usuario (ej. id=4 para maria)
-    const url = `'http://veterinaria-huellitas.infinityfreeapp.com/web/index.php/usuarios/update-perfil?id=${this.user.id}`;
+    const url = `http://10.40.213.31/Veterinaria/web/index.php/usuarios/update-perfil?id=${this.user.id}`;
     
     this.http.post(url, this.editUser).subscribe({
       next: (res: any) => {

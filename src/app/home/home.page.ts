@@ -19,7 +19,7 @@ import {
 })
 export class HomePage implements OnInit {
   
-  private apiUrl = 'http://veterinaria-huellitas.infinityfreeapp.com/web/index.php';
+  private apiUrl = 'http://10.40.213.31/Veterinaria/web/index.php';
 
   user: any = { nombre: '' };
   mascotas: any[] = []; 

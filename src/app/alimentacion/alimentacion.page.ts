@@ -21,8 +21,8 @@ export class AlimentacionPage implements OnInit {
   user: any = { id: null, nombre: '' };
   
   // 1. CORRECCIÓN DE IP Y ENDPOINTS
-private apiUrl = 'http://veterinaria-huellitas.infinityfreeapp.com/web/index.php/alimentacion';
-private apiMascotas = 'http://veterinaria-huellitas.infinityfreeapp.com/web/index.php/mascotas';
+  private apiUrl = 'http://10.40.213.31/Veterinaria/web/index.php/alimentacion';
+  private apiMascotas = 'http://10.40.213.31/Veterinaria/web/index.php/mascotas';
 
   listaAlimentacion: any[] = [];
   listaMascotas: any[] = [];

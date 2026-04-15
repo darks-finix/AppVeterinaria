@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class MascotaService {
 
   // Base de la URL para todas las operaciones
-private url = 'http://localhost/Veterinaria/web/mascotas';
+private url = 'http://10.40.213.31/Veterinaria/web/mascotas';
 
   constructor(private http: HttpClient) { }
 
